@@ -1,4 +1,5 @@
-﻿using System.Text.RegularExpressions;
+﻿using System.Linq;
+using System.Text.RegularExpressions;
 
 namespace Lab1
 {
@@ -45,7 +46,7 @@ namespace Lab1
 
             html = Regex.Replace(html, @"`(.+?)`", "<tt>$1</tt>");
 
-            html = Regex.Replace(html, @"\r\n\r\n", "</p>\n<p>");
+            html = Regex.Replace(html, @"(\r\n){2,}", "</p>\n<p>");
 
             return html;
         }
@@ -57,10 +58,10 @@ namespace Lab1
             int startIndex = 0;
             foreach (var preformattedPart in preformattedParts)
             {
-                int preformattedPartIndex = markdownContent.IndexOf(preformattedPart.Value);
-                string convertingPart = markdownContent.Substring(startIndex, preformattedPartIndex);
-                html += ConvertMarkdownPartToHtml(convertingPart) + $"<pre>{preformattedPart.Value.Trim('`')}</pre>";
-                startIndex = preformattedPartIndex + preformattedPart.Value.Length;
+                string convertingPart = markdownContent.Substring(startIndex, preformattedPart.Index - startIndex);
+                html += ConvertMarkdownPartToHtml(convertingPart);
+                html += "<pre>" + preformattedPart.Groups[1].Value + "</pre>";
+                startIndex = preformattedPart.Index + preformattedPart.Length;
             }
             html += ConvertMarkdownPartToHtml(markdownContent.Substring(startIndex));
 
