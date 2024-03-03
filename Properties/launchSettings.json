@@ -2,7 +2,7 @@
   "profiles": {
     "Lab1": {
       "commandName": "Project",
-      "commandLineArgs": "./test_markdown.md"
+      "commandLineArgs": "./test_markdown.md --out ../../../result.html"
     }
   }
 }
