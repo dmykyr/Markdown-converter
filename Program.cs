@@ -38,6 +38,8 @@ namespace Lab1
 
         static string ConvertMarkdownPartToHtml(string markdown)
         {
+            MarkdownPartCheck(markdown);
+
             string html = markdown;
 
             html = Regex.Replace(html, @"\*\*(.+?)\*\*", "<b>$1</b>");
@@ -49,6 +51,16 @@ namespace Lab1
             html = Regex.Replace(html, @"(\r\n){2,}", "</p>\n<p>");
 
             return html;
+        }
+
+        static void MarkdownPartCheck (string markdown)
+        {
+            List<string> list = new List<string>() { @"\*\*", "_", "`" };
+            var matches = Regex.Matches(markdown, $"({string.Join('|', list)})" + "{2,}").ToList();
+            if (!matches.All(match => match.Value.Length == 3 && match.Value.StartsWith("```")))
+            {
+                throw new Exception("Invalid markdown");
+            }
         }
         static string ConvertMarkdownContentToHtml(string markdownContent)
         {
