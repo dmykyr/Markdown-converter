@@ -42,11 +42,11 @@ namespace Lab1
 
             string html = markdown;
 
-            html = Regex.Replace(html, @"\*\*(.+?)\*\*", "<b>$1</b>");
+            html = Regex.Replace(html, @"\*\*([^\s,.:;].+?[^\s,.:;])\*\*", "<b>$1</b>");
 
-            html = Regex.Replace(html, @"_(.+?)_", "<i>$1</i>");
+            html = Regex.Replace(html, @"_([^\s,.:;].+?[^\s,.:;])_", "<i>$1</i>");
 
-            html = Regex.Replace(html, @"`(.+?)`", "<tt>$1</tt>");
+            html = Regex.Replace(html, @"`([^\s,.:;].+?[^\s,.:;])`", "<tt>$1</tt>");
 
             html = Regex.Replace(html, @"(\r\n){2,}", "</p>\n<p>");
 
@@ -62,6 +62,7 @@ namespace Lab1
                 throw new Exception("Invalid markdown");
             }
         }
+
         static string ConvertMarkdownContentToHtml(string markdownContent)
         {
             string html = String.Empty;
