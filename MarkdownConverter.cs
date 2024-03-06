@@ -1,16 +1,15 @@
-﻿using System.Text.RegularExpressions;
+﻿using System.Collections.Generic;
+using System.Text.RegularExpressions;
 
 namespace MarkdownConverter
 {
     public class MarkdownConverter
     {
-        private static string PartToHtml(string markdown)
+        private static string PartToHtml(string markdownContent)
         {
-            MarkdownPartCheck(markdown);
+            MarkdownPartCheck(markdownContent);
 
-            string html = markdown;
-
-            html = Regex.Replace(html, @"\*\*([^\s,.:;].+?[^\s,.:;])\*\*", "<b>$1</b>");
+            string html = Regex.Replace(markdownContent, @"\*\*([^\s,.:;].+?[^\s,.:;])\*\*", "<b>$1</b>");
 
             html = Regex.Replace(html, @"_([^\s,.:;].+?[^\s,.:;])_", "<i>$1</i>");
 
@@ -21,14 +20,27 @@ namespace MarkdownConverter
             return html;
         }
 
-        private static void MarkdownPartCheck(string markdown)
+        private static void MarkdownPartCheck(string markdownContent)
         {
-            List<string> list = new List<string>() { @"\*\*", "_", "`" };
-            var matches = Regex.Matches(markdown, $"({string.Join('|', list)})" + "{2,}").ToList();
-            if (!matches.All(match => match.Value.Length == 3 && match.Value.StartsWith("```")))
+            CheckConsecutiveMarkdownTags(markdownContent);
+            CheckUnclosedMarkdownTags(markdownContent);
+        }
+
+        private static void CheckUnclosedMarkdownTags(string markdownContent)
+        {
+            List<string> tags = new List<string>() { @"\*\*", "_", "`" };
+            foreach (var tag in tags)
             {
-                throw new Exception("Invalid markdown");
+                var openTagMatches = Regex.Matches(markdownContent, $"({tag}[^\\s,.:;])");
+                var closeTagMatches = Regex.Matches(markdownContent, $"({tag}[^\\s,.:;])");
+                if (openTagMatches.Count != closeTagMatches.Count) throw new Exception("Invalid markdown");
             }
+        }
+        private static void CheckConsecutiveMarkdownTags(string markdownContent)
+        {
+            List<string> tags = new List<string>() { @"\*\*", "_", "`" };
+            var matches = Regex.Matches(markdownContent, $"({string.Join('|', tags)})" + "{2,}");
+            if (matches.Count != 0) throw new Exception("Invalid markdown");
         }
 
         public static string ToHtml(string markdownContent)
