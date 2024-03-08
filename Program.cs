@@ -7,7 +7,7 @@
             if (args.Length == 0) throw new Exception("any args was passed");
 
             string readingFilePath = args[0];
-            string outFilePath = null;
+            string outFilePath = String.Empty;
             if (!File.Exists(readingFilePath)) throw new Exception("incorrect reading file path was passed");
 
             string fileContent = File.ReadAllText(readingFilePath);
