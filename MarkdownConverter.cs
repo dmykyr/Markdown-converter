@@ -1,5 +1,4 @@
-﻿using System.Collections.Generic;
-using System.Text.RegularExpressions;
+﻿using System.Text.RegularExpressions;
 
 namespace MarkdownConverter
 {
@@ -32,7 +31,7 @@ namespace MarkdownConverter
             foreach (var tag in tags)
             {
                 var openTagMatches = Regex.Matches(markdownContent, $"({tag}[^\\s,.:;])");
-                var closeTagMatches = Regex.Matches(markdownContent, $"({tag}[^\\s,.:;])");
+                var closeTagMatches = Regex.Matches(markdownContent, $"([^\\s,.:;]{tag})");
                 if (openTagMatches.Count != closeTagMatches.Count) throw new Exception("Invalid markdown");
             }
         }
