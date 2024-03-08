@@ -24,3 +24,5 @@ Markdown Converter is a C# project that allows you to convert markdown file into
 * If you want to write the output to a file, use the `--out` option followed by the output file path:
 
 `dotnet run <path-to-markdown-file> --out <output-file-path>`
+
+[Revert commit](https://github.com/dmykyr/Markdown-converter/commit/ec55864fb57ef1c399c7ea07be6c7cd6e11c3302)
