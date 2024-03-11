@@ -32,14 +32,14 @@ namespace MarkdownConverter
             {
                 var openTagMatches = Regex.Matches(markdownContent, $"({tag}[^\\s,.:;])");
                 var closeTagMatches = Regex.Matches(markdownContent, $"([^\\s,.:;]{tag})");
-                if (openTagMatches.Count != closeTagMatches.Count) throw new Exception("Invalid markdown");
+                if (openTagMatches.Count != closeTagMatches.Count) throw new InvalidMarkdownException("Invalid markdown: unclosed tag was found");
             }
         }
         private static void CheckConsecutiveMarkdownTags(string markdownContent)
         {
             List<string> tags = new List<string>() { @"\*\*", "_", "`" };
             var matches = Regex.Matches(markdownContent, $"({string.Join('|', tags)})" + "{2,}");
-            if (matches.Count != 0) throw new Exception("Invalid markdown");
+            if (matches.Count != 0) throw new InvalidMarkdownException("Invalid markdown: consecutive markdown tags was found");
         }
 
         public static string ToHtml(string markdownContent)
