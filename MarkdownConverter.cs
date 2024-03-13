@@ -20,10 +20,10 @@ namespace MarkdownConverter
 
         private static readonly Dictionary<string, string> _markdownToHtmlDict = new Dictionary<string, string>()
         {
-            { @"\*\*([^\s,.:;].+?[^\s,.:;])\*\*", "<b>$1</b>" },
-            { @"_([^\s,.:;].+?[^\s,.:;])_", "<i>$1</i>" },
-            { @"`([^\s,.:;].+?[^\s,.:;])`", "<tt>$1</tt>" },
-            { @"(\r\n){2,}", "</p>\n<p>" },
+            { @"\*\*([^\s,.:;].+?[^\s,.:;])\*\*", "<start bold tag>$1<end bold tag>" },
+            { @"_([^\s,.:;].+?[^\s,.:;])_", "<start italic tag>$1<end italic tag>" },
+            { @"`([^\s,.:;].+?[^\s,.:;])`", "<sart code tag>$1<end code tag>" },
+            { @"(\r\n){2,}", "<end of p>\n<start of p>" },
         };
 
         private static readonly List<string> _tags = new List<string>() { @"\*\*", "_", "`" };
