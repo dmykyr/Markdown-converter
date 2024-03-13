@@ -4,31 +4,39 @@
     {
         static void Main(string[] args)
         {
-            if (args.Length == 0) throw new Exception("any args was passed");
+            if (args.Length == 0) throw new ArgumentNullException("any args was passed");
 
             string readingFilePath = args[0];
-            string outFilePath = String.Empty;
-            if (!File.Exists(readingFilePath)) throw new Exception("incorrect reading file path was passed");
+            if (!File.Exists(readingFilePath)) throw new ArgumentException("incorrect reading file path was passed");
 
-            string fileContent = File.ReadAllText(readingFilePath);
-            string html = MarkdownConverter.ToHtml(fileContent);
+            string outFilePath = String.Empty;
+            string format = String.Empty;
 
             for (int i = 0; i < args.Length; i++)
             {
                 if (args[i] == "--out" && i + 1 < args.Length)
                 {
                     outFilePath = args[i + 1];
-                    break;
+                }
+                if (args[i] == "--format" && i + 1 < args.Length)
+                {
+                    format = args[i + 1];
                 }
             }
 
-            if (outFilePath == null)
+            string fileContent = File.ReadAllText(readingFilePath);
+
+
+            if (String.IsNullOrEmpty(outFilePath))
             {
-                Console.WriteLine(html);
+                Console.WriteLine(
+                    MarkdownConverter.ToSpecifiedFormat(String.IsNullOrEmpty(format) ? "ansi" : format, fileContent));
             }
             else
             {
-                File.WriteAllText(outFilePath, html);
+                File.WriteAllText(
+                    outFilePath,
+                    MarkdownConverter.ToSpecifiedFormat(String.IsNullOrEmpty(format) ? "html" : format, fileContent));
             }
         }
     }
