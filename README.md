@@ -68,3 +68,5 @@ I think keeping tests up-to-date in such projects is important and neccessary.
 They not only minimize the time spent on code inspection and debugging for developer but also helps to avoid human factor during code review.
 
 [Revert commit](https://github.com/dmykyr/Markdown-converter/commit/ec55864fb57ef1c399c7ea07be6c7cd6e11c3302)
+
+[Failed commit](https://github.com/dmykyr/Markdown-converter/commit/351063d3d9f5cd388bed3c941cc750cf663b485e)
